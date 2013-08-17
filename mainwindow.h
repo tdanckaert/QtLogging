@@ -26,6 +26,8 @@ private slots:
 
     void on_infoButton_clicked();
 
+    void on_actionQuit_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

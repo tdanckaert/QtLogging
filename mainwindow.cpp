@@ -49,3 +49,8 @@ void MainWindow::on_infoButton_clicked()
 {
     LOG4CXX_INFO(logger, "Just an informational message. ");
 }
+
+void MainWindow::on_actionQuit_triggered()
+{
+    QApplication::quit();
+}
