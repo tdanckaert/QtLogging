@@ -1,23 +1,27 @@
 #!/usr/bin/python
 
 import sys
+from os import path
 from PyQt4 import QtGui, uic
-from PyQt4.QtCore import SIGNAL
+
 import logging
 
 import QTextEditHandler
 
 class PyQtLogging(QtGui.QMainWindow):
 
+    logger = logging.getLogger('PyQtLogging')
+
     def __init__(self):
-        self.logger = logging.getLogger('PyQtLogging')
+
+        PyQtLogging.logger = logging.getLogger('PyQtLogging')
         QtGui.QMainWindow.__init__(self)
-        self.ui = uic.loadUi('mainwindow.ui', self)
-        self.logger.info('UI Loaded.')
+        modulePath = path.dirname(path.realpath(__file__))
+        self.ui = uic.loadUi(modulePath + '/mainwindow.ui', self)
 
         # add handler to display logging information in the GUI
         handler = QTextEditHandler.QTextEditHandler(self.textEdit)
-        self.logger.addHandler(handler)
+        PyQtLogging.logger.addHandler(handler)
 
         self.infoButton.clicked.connect(self.info)
         self.warnButton.clicked.connect(self.warn)
@@ -29,15 +33,16 @@ class PyQtLogging(QtGui.QMainWindow):
         self.actionQuit.setStatusTip('Exit application')
 
         self.show()
+        PyQtLogging.logger.info('UI Loaded.')
 
     def info(self):
-        self.logger.info('This is just an informational message.')
+        PyQtLogging.logger.info('This is just an informational message.')
 
     def warn(self):
-        self.logger.warn('Warning! Warning!')
+        PyQtLogging.logger.warn('Warning! Warning!')
 
     def error(self):
-        self.logger.error('Alarm! Alarm!')
+        PyQtLogging.logger.error('Alarm! Alarm!')
 
 def main():
     logging.basicConfig(level=logging.INFO)
